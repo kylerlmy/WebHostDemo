@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -25,6 +26,17 @@ namespace MiddleWare
                 app.UseDeveloperExceptionPage();
             }
 
+            //app.UseIISPlatformHandler();
+
+            app.UseRequestCulture();
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync($"Hello {CultureInfo.CurrentCulture.DisplayName}");
+            });
+
+
+
             //这里的IApplicationBuilder(appTask),与构造函数注入的IApplicationBuilder（app）不是同一个实例
             app.Map("/task", apptask =>
             {
@@ -48,7 +60,7 @@ namespace MiddleWare
                 return (context) =>
                 {
                     return context.Response.WriteAsync("2:in the middle of start .....\r\n");
-                    // return next(context);
+                    // return next(context);//下个中间件被短路
                 };
             });
 

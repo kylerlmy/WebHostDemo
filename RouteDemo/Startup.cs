@@ -28,7 +28,7 @@ namespace RouteDemo
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            //处理HTTP请求时，使用路由（非MVC类）
             //抛错，注意和app.Map("/task")方法的区别
             //app.UseRouter(builder => builder.MapGet("/task", context =>
             //{
@@ -41,7 +41,7 @@ namespace RouteDemo
 
             app.UseRouter(route);
 
-            //UseRouter使用方式2，使用RouteBuilder来构建
+            //UseRouter使用方式2，使用RouteBuilder来构建，route 路由的使用,使用IRouteBuilder接口
             app.UseRouter(builder => builder.MapGet("task", context =>
             {
                 return context.Response.WriteAsync(("this ia a ation"));
@@ -53,6 +53,7 @@ namespace RouteDemo
                 await context.Response.WriteAsync("Hello World!");
             });
 
+            //Mvc中处理请求时使用Route进行路由，使用IRouteBuilder接口
             app.UseMvc(builder =>
             {
                 builder.MapRoute("api/get", context =>
